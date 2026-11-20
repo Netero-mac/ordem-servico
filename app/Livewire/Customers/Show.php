@@ -15,6 +15,9 @@ use Illuminate\Database\Eloquent\Collection;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 
+/**
+ * @property-read Collection<int, Device> $devices
+ */
 class Show extends Component
 {
     public Customer $customer;

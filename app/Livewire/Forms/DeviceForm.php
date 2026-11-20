@@ -60,17 +60,25 @@ class DeviceForm extends Form
         ];
     }
 
-    public function save(Customer $customer): Device
+    /**
+     * @return array{type: string, brand: string, model: string, serial_or_imei: ?string, color: ?string}
+     */
+    public function payload(): array
     {
         $this->validate();
 
-        $data = [
+        return [
             'type' => $this->type,
             'brand' => trim($this->brand),
             'model' => trim($this->model),
             'serial_or_imei' => filled($this->serial_or_imei) ? trim($this->serial_or_imei) : null,
             'color' => filled($this->color) ? trim($this->color) : null,
         ];
+    }
+
+    public function save(Customer $customer): Device
+    {
+        $data = $this->payload();
 
         if ($this->device) {
             $this->device->update($data);

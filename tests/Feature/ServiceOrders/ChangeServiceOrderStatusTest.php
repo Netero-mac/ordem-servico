@@ -4,6 +4,7 @@ use App\Actions\ServiceOrders\ChangeServiceOrderStatus;
 use App\Enums\ServiceOrderStatus as S;
 use App\Exceptions\InvalidStatusTransition;
 use App\Models\ServiceOrder;
+use App\Models\ServiceOrderItem;
 use App\Models\User;
 
 beforeEach(function () {
@@ -80,8 +81,20 @@ test('registra a data de entrega', function () {
     expect($order->delivered_at->equalTo(now()))->toBeTrue();
 });
 
+test('não envia para aprovação um orçamento sem itens', function () {
+    $order = ServiceOrder::factory()->status(S::InAnalysis)->create();
+
+    expect(fn () => $this->action->handle($order, S::AwaitingApproval, $this->technician))
+        ->toThrow(InvalidStatusTransition::class, 'Adicione ao menos um item ao orçamento');
+
+    ServiceOrderItem::factory()->for($order)->create();
+
+    expect($this->action->handle($order, S::AwaitingApproval, $this->technician)->status)->toBe(S::AwaitingApproval);
+});
+
 test('percorre o fluxo completo e mantém o histórico encadeado', function () {
     $order = ServiceOrder::factory()->create();
+    ServiceOrderItem::factory()->for($order)->create();
     $path = [S::InAnalysis, S::AwaitingApproval, S::Approved, S::AwaitingPart, S::InRepair, S::Ready, S::Delivered];
 
     foreach ($path as $status) {

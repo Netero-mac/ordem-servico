@@ -16,6 +16,13 @@ return [
     'default' => env('FILESYSTEM_DISK', 'local'),
 
     /*
+    | Disco das fotos de entrada das OS. Privado (servido só para usuários logados).
+    | Em produção na Render use um disco S3/R2: o disco local é apagado a cada deploy.
+    */
+
+    'photos_disk' => env('PHOTOS_DISK', 'local'),
+
+    /*
     |--------------------------------------------------------------------------
     | Filesystem Disks
     |--------------------------------------------------------------------------

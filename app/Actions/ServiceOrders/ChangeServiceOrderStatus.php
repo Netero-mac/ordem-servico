@@ -31,6 +31,10 @@ class ChangeServiceOrderStatus
                 throw InvalidStatusTransition::between($from, $to);
             }
 
+            if ($to === ServiceOrderStatus::AwaitingApproval && ! $order->items()->exists()) {
+                throw new InvalidStatusTransition('Adicione ao menos um item ao orçamento antes de enviá-lo para aprovação.');
+            }
+
             $order->status = $to;
 
             if ($to === ServiceOrderStatus::Approved) {

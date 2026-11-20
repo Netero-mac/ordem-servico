@@ -11,6 +11,7 @@
             <flux:heading size="xl" level="1">{{ $customer->name }}</flux:heading>
 
             <div class="flex gap-2">
+                <flux:button variant="primary" icon="plus" :href="route('service-orders.create', ['cliente' => $customer->id])" wire:navigate>Nova OS</flux:button>
                 <flux:button icon="pencil-square" :href="route('customers.edit', $customer)" wire:navigate>Editar</flux:button>
 
                 @can('delete', $customer)
@@ -68,6 +69,7 @@
                     </div>
 
                     <div class="flex gap-1">
+                        <flux:button size="sm" variant="ghost" icon="plus" :href="route('service-orders.create', ['cliente' => $customer->id, 'aparelho' => $device->id])" wire:navigate>Nova OS</flux:button>
                         <flux:button size="sm" variant="ghost" icon="pencil-square" wire:click="editDevice({{ $device->id }})" aria-label="Editar aparelho" />
                         @can('delete', $device)
                             <flux:button
@@ -93,7 +95,9 @@
                         <flux:table.rows>
                             @foreach ($device->serviceOrders as $order)
                                 <flux:table.row :key="$order->id">
-                                    <flux:table.cell variant="strong">{{ $order->number }}</flux:table.cell>
+                                    <flux:table.cell variant="strong">
+                                        <flux:link :href="route('service-orders.show', $order)" wire:navigate>{{ $order->number }}</flux:link>
+                                    </flux:table.cell>
                                     <flux:table.cell>{{ Dates::date($order->created_at) }}</flux:table.cell>
                                     <flux:table.cell class="max-w-xs truncate">{{ $order->reported_issue }}</flux:table.cell>
                                     <flux:table.cell><x-status-badge :status="$order->status" /></flux:table.cell>

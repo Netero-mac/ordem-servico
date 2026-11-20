@@ -65,17 +65,27 @@ class CustomerForm extends Form
         ];
     }
 
-    public function save(): Customer
+    /**
+     * Valida e devolve os dados já normalizados para gravar.
+     *
+     * @return array{name: string, phone: string, email: ?string, document: ?string, notes: ?string}
+     */
+    public function payload(): array
     {
         $this->validate();
 
-        $data = [
+        return [
             'name' => trim($this->name),
             'phone' => Phone::normalize($this->phone),
             'email' => filled($this->email) ? mb_strtolower(trim($this->email)) : null,
             'document' => filled($this->document) ? Cpf::normalize($this->document) : null,
             'notes' => filled($this->notes) ? trim($this->notes) : null,
         ];
+    }
+
+    public function save(): Customer
+    {
+        $data = $this->payload();
 
         if ($this->customer) {
             $this->customer->update($data);

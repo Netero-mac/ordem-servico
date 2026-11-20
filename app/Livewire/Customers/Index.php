@@ -13,6 +13,9 @@ use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\WithPagination;
 
+/**
+ * @property-read LengthAwarePaginator<int, Customer> $customers
+ */
 #[Title('Clientes')]
 class Index extends Component
 {

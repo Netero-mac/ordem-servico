@@ -8,6 +8,8 @@ use Carbon\CarbonImmutable;
 use Database\Factories\ServiceOrderFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
+use Illuminate\Database\Eloquent\Attributes\Scope;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -85,6 +87,39 @@ class ServiceOrder extends Model
                 'note' => 'Ordem de serviço aberta.',
             ]);
         });
+    }
+
+    /**
+     * Previsão de entrega vencida e o aparelho ainda está em serviço.
+     * "Pronto para retirada" não conta: a loja já cumpriu a parte dela.
+     */
+    public function isOverdue(): bool
+    {
+        return $this->estimated_delivery_at !== null
+            && $this->estimated_delivery_at->isPast()
+            && in_array($this->status, self::overdueStatuses(), true);
+    }
+
+    /**
+     * @param  Builder<ServiceOrder>  $query
+     */
+    #[Scope]
+    protected function overdue(Builder $query): void
+    {
+        $query->whereNotNull('estimated_delivery_at')
+            ->where('estimated_delivery_at', '<', now())
+            ->whereIn('status', self::overdueStatuses());
+    }
+
+    /**
+     * @return list<ServiceOrderStatus>
+     */
+    public static function overdueStatuses(): array
+    {
+        return array_values(array_filter(
+            ServiceOrderStatus::openStatuses(),
+            fn (ServiceOrderStatus $status) => $status !== ServiceOrderStatus::Ready,
+        ));
     }
 
     /**
