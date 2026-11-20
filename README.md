@@ -1,6 +1,6 @@
 # Sistema de Ordens de Serviço para Assistência Técnica
 
-[![CI](https://github.com/SEU-USUARIO/ordem-servico/actions/workflows/ci.yml/badge.svg)](https://github.com/SEU-USUARIO/ordem-servico/actions/workflows/ci.yml)
+[![CI](https://github.com/Netero-mac/ordem-servico/actions/workflows/ci.yml/badge.svg)](https://github.com/Netero-mac/ordem-servico/actions/workflows/ci.yml)
 ![PHP 8.3](https://img.shields.io/badge/PHP-8.3-777BB4?logo=php&logoColor=white)
 ![Laravel 13](https://img.shields.io/badge/Laravel-13-FF2D20?logo=laravel&logoColor=white)
 ![Livewire 4](https://img.shields.io/badge/Livewire-4-FB70A9?logo=livewire&logoColor=white)
@@ -185,7 +185,7 @@ erDiagram
 Requisitos: PHP 8.3+ (extensões `pdo_sqlite`, `mbstring`, `xml`, `zip`, `gd`), Composer e Node 20.19+.
 
 ```bash
-git clone https://github.com/SEU-USUARIO/ordem-servico.git
+git clone https://github.com/Netero-mac/ordem-servico.git
 cd ordem-servico
 
 composer setup                    # instala dependências, cria o .env, gera a chave, migra e compila os assets
