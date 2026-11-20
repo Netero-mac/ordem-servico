@@ -3,7 +3,7 @@
     <head>
         @include('partials.head')
     </head>
-    <body class="min-h-screen bg-zinc-50 antialiased dark:bg-zinc-950 dark:bg-[radial-gradient(ellipse_at_top,_rgb(121_11_19_/_0.35),_transparent_60%)]">
+    <body class="min-h-screen bg-zinc-50 antialiased dark:bg-zinc-950 dark:bg-[radial-gradient(ellipse_at_top,_rgb(120_149_117_/_0.28),_transparent_55%),radial-gradient(ellipse_at_bottom_right,_rgb(192_118_79_/_0.14),_transparent_50%)]">
         <div class="flex min-h-svh flex-col items-center justify-center gap-6 p-6 md:p-10">
             <div class="flex w-full max-w-sm flex-col gap-2">
                 <a href="{{ route('home') }}" class="flex flex-col items-center gap-2 font-medium" wire:navigate>

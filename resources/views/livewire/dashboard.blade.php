@@ -65,6 +65,21 @@
 
             <flux:card>
                 <ul class="flex flex-col gap-3" aria-label="Quantidade de OS em aberto por status">
+                    @php
+                        // Mesma cor do badge de cada status. Classes literais para o Tailwind enxergar.
+                        $barColors = [
+                            'zinc' => 'bg-zinc-400 dark:bg-zinc-400',
+                            'sky' => 'bg-sky-500 dark:bg-sky-400',
+                            'amber' => 'bg-amber-500 dark:bg-amber-400',
+                            'emerald' => 'bg-emerald-500 dark:bg-emerald-400',
+                            'rose' => 'bg-rose-500 dark:bg-rose-400',
+                            'orange' => 'bg-orange-500 dark:bg-orange-400',
+                            'indigo' => 'bg-indigo-500 dark:bg-indigo-400',
+                            'lime' => 'bg-lime-500 dark:bg-lime-400',
+                            'green' => 'bg-green-600 dark:bg-green-400',
+                            'red' => 'bg-red-500 dark:bg-red-400',
+                        ];
+                    @endphp
                     @foreach ($byStatus as $row)
                         <li>
                             <a
@@ -77,7 +92,7 @@
                                 <span class="h-2.5 w-full">
                                     @if ($row['count'] > 0)
                                         <span
-                                            class="block h-full rounded-e bg-brand-800 transition-opacity group-hover:opacity-80 dark:bg-brand-400"
+                                            class="block h-full rounded-e transition-opacity group-hover:opacity-80 {{ $barColors[$row['status']->color()] }}"
                                             style="width: {{ max(2, round($row['count'] / $maxCount * 100)) }}%"
                                         ></span>
                                     @endif

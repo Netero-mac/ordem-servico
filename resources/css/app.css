@@ -11,43 +11,50 @@
 @theme {
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 
-    /* Identidade: Deep Crimson Burgundy (#790B13) e Warm Ivory Cream (#FFF0DC). */
-    --color-brand-50: #fdf3f3;
-    --color-brand-100: #fbe4e5;
-    --color-brand-200: #f6cacd;
-    --color-brand-300: #eea3a8;
-    --color-brand-400: #e06e77;
-    --color-brand-500: #cc404b;
-    --color-brand-600: #a92330;
-    --color-brand-700: #8e1520;
-    --color-brand-800: #790b13;
-    --color-brand-900: #5e0910;
-    --color-brand-950: #36040a;
-    --color-ivory: #fff0dc;
+    /* Identidade: Muted Forest Sage (#789575), Pale Sage Ivory (#E5E8CE) e terracota (#C0764F) como complementar quente. */
+    --color-brand-50: #f5f6ec;
+    --color-brand-100: #e5e8ce;
+    --color-brand-200: #cdd5b8;
+    --color-brand-300: #adbd9f;
+    --color-brand-400: #91a88b;
+    --color-brand-500: #789575;
+    --color-brand-600: #5f7b5c;
+    --color-brand-700: #4b6349;
+    --color-brand-800: #3d503c;
+    --color-brand-900: #314031;
+    --color-brand-950: #1a241a;
+    --color-ivory: #e5e8ce;
 
-    /* Neutros quentes: o Flux usa a escala "zinc" em tudo, então ela puxa para o marfim. */
-    --color-zinc-50: #fffaf3;
-    --color-zinc-100: #fff0dc;
-    --color-zinc-200: #eadcc8;
-    --color-zinc-300: #d5c4ae;
-    --color-zinc-400: #a8968a;
-    --color-zinc-500: #7a6a62;
-    --color-zinc-600: #5b4d48;
-    --color-zinc-700: #3e3331;
-    --color-zinc-800: #2a2221;
-    --color-zinc-900: #1d1717;
-    --color-zinc-950: #120e0e;
+    --color-clay-300: #e2b497;
+    --color-clay-400: #d4946f;
+    --color-clay-500: #c0764f;
+    --color-clay-600: #a15f3d;
+    --color-clay-700: #834b31;
 
-    --color-accent: var(--color-brand-800);
-    --color-accent-content: var(--color-brand-800);
-    --color-accent-foreground: var(--color-ivory);
+    /* Neutros levemente esverdeados: o Flux usa a escala "zinc" em tudo. */
+    --color-zinc-50: #f8f9f3;
+    --color-zinc-100: #eef0e3;
+    --color-zinc-200: #dde1d0;
+    --color-zinc-300: #c3c9b6;
+    --color-zinc-400: #979e8d;
+    --color-zinc-500: #6d7466;
+    --color-zinc-600: #50564b;
+    --color-zinc-700: #383d35;
+    --color-zinc-800: #262a24;
+    --color-zinc-900: #1a1d19;
+    --color-zinc-950: #10120f;
+
+    /* Botões em sálvia; links e destaques em terracota. */
+    --color-accent: var(--color-brand-700);
+    --color-accent-content: var(--color-clay-600);
+    --color-accent-foreground: var(--color-brand-50);
 }
 
 @layer theme {
     .dark {
-        --color-accent: var(--color-brand-700);
-        --color-accent-content: var(--color-brand-300);
-        --color-accent-foreground: var(--color-ivory);
+        --color-accent: var(--color-brand-400);
+        --color-accent-content: var(--color-clay-400);
+        --color-accent-foreground: var(--color-brand-950);
     }
 }
 

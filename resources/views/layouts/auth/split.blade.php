@@ -3,10 +3,10 @@
     <head>
         @include('partials.head')
     </head>
-    <body class="min-h-screen bg-zinc-50 antialiased dark:bg-zinc-950 dark:bg-[radial-gradient(ellipse_at_top,_rgb(121_11_19_/_0.35),_transparent_60%)]">
+    <body class="min-h-screen bg-zinc-50 antialiased dark:bg-zinc-950 dark:bg-[radial-gradient(ellipse_at_top,_rgb(120_149_117_/_0.28),_transparent_55%),radial-gradient(ellipse_at_bottom_right,_rgb(192_118_79_/_0.14),_transparent_50%)]">
         <div class="relative grid h-dvh flex-col items-center justify-center px-8 sm:px-0 lg:max-w-none lg:grid-cols-2 lg:px-0">
             <div class="bg-muted relative hidden h-full flex-col p-10 text-white lg:flex dark:border-e dark:border-neutral-800">
-                <div class="absolute inset-0 bg-brand-900"></div>
+                <div class="absolute inset-0 bg-brand-800"></div>
                 <a href="{{ route('home') }}" class="relative z-20 flex items-center text-lg font-medium" wire:navigate>
                     <span class="flex h-10 w-10 items-center justify-center rounded-md">
                         <x-brand-mark size="size-8" class="me-2" />
