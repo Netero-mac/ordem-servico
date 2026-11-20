@@ -1,0 +1,64 @@
+# Blueprint da Render: https://render.com/docs/blueprint-spec
+# Cria o banco PostgreSQL e o serviço web (Docker). Variáveis marcadas com sync: false
+# são pedidas no painel da Render na hora de aplicar o Blueprint.
+
+databases:
+  - name: ordem-servico-db
+    plan: free
+    databaseName: ordem_servico
+    user: ordem_servico
+
+services:
+  - type: web
+    name: ordem-servico
+    runtime: docker
+    plan: free
+    healthCheckPath: /up
+    envVars:
+      - key: PORT
+        value: "8080"
+      - key: APP_NAME
+        value: Ordem de Serviço
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: "false"
+      - key: APP_KEY
+        sync: false # gere com: php artisan key:generate --show
+      - key: APP_URL
+        sync: false # ex.: https://ordem-servico.onrender.com
+      - key: APP_LOCALE
+        value: pt_BR
+      - key: DB_CONNECTION
+        value: pgsql
+      - key: DB_URL
+        fromDatabase:
+          name: ordem-servico-db
+          property: connectionString
+      - key: SESSION_DRIVER
+        value: database
+      - key: SESSION_SECURE_COOKIE
+        value: "true"
+      - key: CACHE_STORE
+        value: database
+      - key: QUEUE_CONNECTION
+        value: sync
+      - key: LOG_CHANNEL
+        value: stderr
+      - key: MAIL_MAILER
+        value: log
+      - key: SHOP_NAME
+        sync: false
+      - key: SHOP_PHONE
+        sync: false
+      - key: SHOP_ADDRESS
+        sync: false
+      - key: SHOP_DOCUMENT
+        sync: false
+      # Demonstração do portfólio: true. Uso real da loja: false + INITIAL_ADMIN_*.
+      - key: SEED_DEMO_DATA
+        value: "true"
+      - key: INITIAL_ADMIN_EMAIL
+        sync: false
+      - key: INITIAL_ADMIN_PASSWORD
+        sync: false

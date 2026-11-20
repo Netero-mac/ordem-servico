@@ -75,6 +75,18 @@ return [
     'display_timezone' => env('APP_DISPLAY_TIMEZONE', 'America/Cuiaba'),
 
     /*
+    | Inicialização de um banco vazio no deploy (comando app:bootstrap).
+    */
+
+    'seed_demo_data' => (bool) env('SEED_DEMO_DATA', false),
+
+    'initial_admin' => [
+        'name' => env('INITIAL_ADMIN_NAME', 'Administrador'),
+        'email' => env('INITIAL_ADMIN_EMAIL'),
+        'password' => env('INITIAL_ADMIN_PASSWORD'),
+    ],
+
+    /*
     |--------------------------------------------------------------------------
     | Application Locale Configuration
     |--------------------------------------------------------------------------

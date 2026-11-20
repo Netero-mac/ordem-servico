@@ -6,6 +6,7 @@ use App\Http\Controllers\ServiceOrderPhotoController;
 use App\Livewire\Customers;
 use App\Livewire\Dashboard;
 use App\Livewire\ServiceOrders;
+use App\Livewire\Users;
 use Illuminate\Support\Facades\Route;
 
 Route::redirect('/', '/dashboard')->name('home');
@@ -26,6 +27,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::livewire('clientes/novo', Customers\Edit::class)->name('customers.create');
     Route::livewire('clientes/{customer}', Customers\Show::class)->name('customers.show');
     Route::livewire('clientes/{customer}/editar', Customers\Edit::class)->name('customers.edit');
+
+    Route::livewire('usuarios', Users\Index::class)->name('users.index');
 
     Route::livewire('os', ServiceOrders\Index::class)->name('service-orders.index');
     Route::livewire('os/nova', ServiceOrders\Create::class)->name('service-orders.create');

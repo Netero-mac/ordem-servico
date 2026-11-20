@@ -1,0 +1,110 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality:
+    name: Pint e Larastan
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # v2
+        with:
+          php-version: '8.3'
+          tools: composer:v2
+          coverage: none
+
+      - name: Instalar dependências
+        run: composer install --no-interaction --prefer-dist --no-progress
+
+      - name: Pint (padrão de código)
+        run: vendor/bin/pint --test
+
+      - name: Larastan (análise estática)
+        run: vendor/bin/phpstan analyse --no-progress
+
+  tests:
+    name: Pest (${{ matrix.database }})
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        database: [sqlite, pgsql]
+
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_DB: ordem_servico_test
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # v2
+        with:
+          php-version: '8.3'
+          extensions: pdo_sqlite, pdo_pgsql
+          tools: composer:v2
+          coverage: ${{ matrix.database == 'sqlite' && 'pcov' || 'none' }}
+
+      - name: Setup Node
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Instalar dependências
+        run: |
+          composer install --no-interaction --prefer-dist --no-progress
+          npm ci --no-audit --no-fund
+
+      - name: Preparar aplicação
+        run: |
+          cp .env.example .env
+          php artisan key:generate
+          npm run build
+
+      - name: Testes (SQLite) com cobertura
+        if: matrix.database == 'sqlite'
+        run: php artisan test --coverage
+
+      - name: Testes (PostgreSQL)
+        if: matrix.database == 'pgsql'
+        env:
+          DB_CONNECTION: pgsql
+          DB_URL: ''
+          DB_HOST: 127.0.0.1
+          DB_PORT: 5432
+          DB_DATABASE: ordem_servico_test
+          DB_USERNAME: postgres
+          DB_PASSWORD: postgres
+        run: php artisan test
