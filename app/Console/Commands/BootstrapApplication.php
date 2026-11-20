@@ -8,6 +8,7 @@ use Database\Seeders\DatabaseSeeder;
 use Illuminate\Console\Attributes\Description;
 use Illuminate\Console\Attributes\Signature;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Roda a cada deploy (depois das migrations). Só age quando o banco ainda não tem usuários:
@@ -28,7 +29,8 @@ class BootstrapApplication extends Command
         }
 
         if (config('app.seed_demo_data')) {
-            $this->call('db:seed', ['--class' => DatabaseSeeder::class, '--force' => true]);
+            // Tudo ou nada: se falhar no meio, o banco continua vazio e a próxima subida tenta de novo.
+            DB::transaction(fn () => $this->call('db:seed', ['--class' => DatabaseSeeder::class, '--force' => true]));
             $this->components->info('Dados de demonstração carregados.');
 
             return self::SUCCESS;
