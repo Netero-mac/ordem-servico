@@ -200,7 +200,7 @@ new class extends Component {
                             name="code"
                             wire:model="code"
                             length="6"
-                            label="OTP Code"
+                            label="Código"
                             label:sr-only
                             class="mx-auto"
                         />

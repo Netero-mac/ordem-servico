@@ -78,33 +78,9 @@ test('email verification status is unchanged when email address is unchanged', f
     $this->assertNotNull($user->refresh()->email_verified_at);
 });
 
-test('user can delete their account', function () {
-    $user = User::factory()->create();
-
-    $this->actingAs($user);
-
-    $response = Livewire::test('pages::settings.delete-user-modal')
-        ->set('password', 'password')
-        ->call('deleteUser');
-
-    $response
-        ->assertHasNoErrors()
-        ->assertRedirect('/');
-
-    $this->assertNull($user->fresh());
-    $this->assertFalse(auth()->check());
-});
-
-test('correct password must be provided to delete account', function () {
-    $user = User::factory()->create();
-
-    $this->actingAs($user);
-
-    $response = Livewire::test('pages::settings.delete-user-modal')
-        ->set('password', 'wrong-password')
-        ->call('deleteUser');
-
-    $response->assertHasErrors(['password']);
-
-    $this->assertNotNull($user->fresh());
+test('a tela de perfil não oferece exclusão da própria conta', function () {
+    $this->actingAs(User::factory()->create())
+        ->get(route('profile.edit'))
+        ->assertOk()
+        ->assertDontSee('data-test="delete-user-button"', false);
 });
