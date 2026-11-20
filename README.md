@@ -7,7 +7,7 @@
 
 Aplicação web para controlar o conserto de celulares e computadores do balcão até a entrega: abertura da OS, orçamento, aprovação pelo cliente, acompanhamento pelo WhatsApp, comprovantes em PDF e indicadores do mês.
 
-**🔗 Demonstração:** https://SEU-APP.onrender.com — entre com `admin@example.com` / `password` (administrador) ou `tecnico@example.com` / `password` (técnico).
+**🔗 Demonstração:** https://ordem-servico-wagd.onrender.com — entre com `admin@example.com` / `password` (administrador) ou `tecnico@example.com` / `password` (técnico).
 
 > A demonstração usa o plano gratuito da Render: o primeiro acesso pode levar até um minuto enquanto o servidor "acorda". Todos os dados são fictícios.
 
