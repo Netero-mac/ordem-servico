@@ -23,3 +23,9 @@ test('o seeder cria os dados de demonstração com histórico coerente', functio
             ->and($order->customer_id)->toBe($order->device->customer_id);
     });
 });
+
+it('gera nomes de clientes sem tratamento, para a saudação usar o primeiro nome', function () {
+    $names = Customer::factory()->count(50)->make()->pluck('name');
+
+    expect($names->filter(fn (string $name) => str_contains(strtok($name, ' '), '.')))->toBeEmpty();
+});

@@ -13,7 +13,8 @@ class CustomerFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->name(),
+            // Sem tratamento (Sr., Srta.) nem sufixo (Filho, Jr.): a mensagem usa o primeiro nome.
+            'name' => fake()->firstName().' '.fake()->lastName(),
             // Celular fictício de Cuiabá/MT: DDD 65 + 9 + 8 dígitos.
             'phone' => '659'.fake()->numerify('########'),
             'email' => fake()->optional(0.6)->safeEmail(),
