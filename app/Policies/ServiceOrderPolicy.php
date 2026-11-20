@@ -59,6 +59,14 @@ class ServiceOrderPolicy
         return $user->isAdmin();
     }
 
+    /**
+     * Comprovante de entrega: só quando o aparelho está pronto ou já foi entregue.
+     */
+    public function printDelivery(User $user, ServiceOrder $order): bool
+    {
+        return in_array($order->status, [ServiceOrderStatus::Ready, ServiceOrderStatus::Delivered], true);
+    }
+
     public function delete(User $user, ServiceOrder $order): bool
     {
         return $user->isAdmin();

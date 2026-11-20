@@ -15,6 +15,10 @@ test('o seeder cria os dados de demonstração com histórico coerente', functio
         ->and(ServiceOrder::distinct()->count('status'))->toBeGreaterThanOrEqual(8);
 
     ServiceOrder::with('statusHistory')->get()->each(function (ServiceOrder $order) {
+        // Todas as OS abertas nas últimas semanas, e nenhum evento no futuro.
+        expect($order->created_at->greaterThan(now()->subDays(26)))->toBeTrue()
+            ->and($order->statusHistory->last()->created_at->lessThanOrEqualTo(now()))->toBeTrue();
+
         expect($order->statusHistory->last()->to_status)->toBe($order->status)
             ->and($order->customer_id)->toBe($order->device->customer_id);
     });

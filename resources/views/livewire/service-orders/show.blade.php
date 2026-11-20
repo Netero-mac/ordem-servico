@@ -31,6 +31,15 @@
                     x-on:click="navigator.clipboard.writeText(@js($trackingLink)); $flux.toast('Link de acompanhamento copiado.')"
                     aria-label="Copiar link de acompanhamento"
                 />
+                <flux:dropdown>
+                    <flux:button icon="printer" icon:trailing="chevron-down">Imprimir</flux:button>
+                    <flux:menu>
+                        <flux:menu.item icon="document-text" :href="route('service-orders.pdf.entry', $order)" target="_blank">Comprovante de entrada</flux:menu.item>
+                        @can('printDelivery', $order)
+                            <flux:menu.item icon="document-check" :href="route('service-orders.pdf.delivery', $order)" target="_blank">Comprovante de entrega</flux:menu.item>
+                        @endcan
+                    </flux:menu>
+                </flux:dropdown>
                 @can('changeStatus', $order)
                     <flux:button variant="primary" icon="arrow-path" wire:click="openStatusModal">Mudar status</flux:button>
                 @endcan

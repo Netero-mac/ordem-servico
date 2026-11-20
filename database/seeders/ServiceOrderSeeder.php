@@ -48,12 +48,15 @@ class ServiceOrderSeeder extends Seeder
             ->flatMap(fn (array $scenario) => array_fill(0, $scenario[0], $scenario[1]))
             ->shuffle();
 
+        // Referência fixa: cada OS volta no tempo a partir de HOJE, não da OS anterior.
+        $today = now(config('app.display_timezone'));
+
         try {
             foreach ($scenarios as $path) {
                 // Abre a OS no passado e avança algumas horas a cada etapa.
                 Carbon::setTestNow(
-                    now(config('app.display_timezone'))
-                        ->subDays(fake()->numberBetween(8, 25))
+                    $today
+                        ->subDays(fake()->numberBetween(10, 25))
                         ->setTime(fake()->numberBetween(8, 17), fake()->numberBetween(0, 59))
                         ->utc()
                 );
@@ -65,7 +68,8 @@ class ServiceOrderSeeder extends Seeder
                     'customer_id' => $device->customer_id,
                     'user_id' => $admin->id,
                     'technician_id' => fake()->boolean(80) ? $technician->id : null,
-                    'estimated_delivery_at' => now()->addDays(fake()->numberBetween(2, 12))->setTime(18, 0),
+                    // Previsão em torno de hoje: algumas atrasadas, a maioria no prazo.
+                    'estimated_delivery_at' => $today->addDays(fake()->numberBetween(-2, 9))->setTime(18, 0)->utc(),
                 ]);
 
                 foreach ($path as $status) {

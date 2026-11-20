@@ -1,8 +1,10 @@
 <?php
 
 use App\Http\Controllers\PublicTrackingController;
+use App\Http\Controllers\ServiceOrderPdfController;
 use App\Http\Controllers\ServiceOrderPhotoController;
 use App\Livewire\Customers;
+use App\Livewire\Dashboard;
 use App\Livewire\ServiceOrders;
 use Illuminate\Support\Facades\Route;
 
@@ -18,7 +20,7 @@ Route::prefix('acompanhar/{token}')
     });
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::view('dashboard', 'dashboard')->name('dashboard');
+    Route::livewire('dashboard', Dashboard::class)->name('dashboard');
 
     Route::livewire('clientes', Customers\Index::class)->name('customers.index');
     Route::livewire('clientes/novo', Customers\Edit::class)->name('customers.create');
@@ -28,6 +30,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::livewire('os', ServiceOrders\Index::class)->name('service-orders.index');
     Route::livewire('os/nova', ServiceOrders\Create::class)->name('service-orders.create');
     Route::livewire('os/{serviceOrder}', ServiceOrders\Show::class)->name('service-orders.show');
+    Route::get('os/{serviceOrder}/comprovante-entrada.pdf', [ServiceOrderPdfController::class, 'entry'])->name('service-orders.pdf.entry');
+    Route::get('os/{serviceOrder}/comprovante-entrega.pdf', [ServiceOrderPdfController::class, 'delivery'])->name('service-orders.pdf.delivery');
     Route::get('os/{serviceOrder}/fotos/{photo}', ServiceOrderPhotoController::class)->name('service-orders.photos.show');
 });
 

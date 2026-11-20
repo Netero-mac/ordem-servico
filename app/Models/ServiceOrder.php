@@ -90,6 +90,14 @@ class ServiceOrder extends Model
     }
 
     /**
+     * Fim da garantia (conta a partir da entrega).
+     */
+    public function warrantyEndsAt(): ?CarbonImmutable
+    {
+        return $this->delivered_at?->addDays($this->warranty_days);
+    }
+
+    /**
      * Previsão de entrega vencida e o aparelho ainda está em serviço.
      * "Pronto para retirada" não conta: a loja já cumpriu a parte dela.
      */
