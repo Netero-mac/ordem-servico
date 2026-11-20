@@ -13,6 +13,7 @@ use App\Livewire\Forms\ServiceOrderItemForm;
 use App\Models\ServiceOrder;
 use App\Models\ServiceOrderItem;
 use App\Models\User;
+use App\Services\WhatsAppLinkBuilder;
 use Flux\Flux;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Collection;
@@ -234,7 +235,7 @@ class Show extends Component
         $this->redirectRoute('service-orders.index', navigate: true);
     }
 
-    public function render(): View
+    public function render(WhatsAppLinkBuilder $whatsApp): View
     {
         $this->order->load([
             'customer', 'device', 'openedBy', 'technician', 'photos',
@@ -243,6 +244,8 @@ class Show extends Component
 
         return view('livewire.service-orders.show', [
             'itemTypes' => ItemType::cases(),
+            'whatsAppLink' => $whatsApp->forServiceOrder($this->order),
+            'trackingLink' => route('tracking.show', $this->order->public_token),
         ])->title("OS {$this->order->number}");
     }
 

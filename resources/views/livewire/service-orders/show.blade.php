@@ -21,6 +21,16 @@
             </div>
 
             <div class="flex flex-wrap gap-2">
+                <flux:button icon="chat-bubble-left-ellipsis" :href="$whatsAppLink" target="_blank" rel="noopener noreferrer" data-test="whatsapp-button">
+                    Enviar pelo WhatsApp
+                </flux:button>
+                <flux:button
+                    icon="link"
+                    variant="ghost"
+                    x-data
+                    x-on:click="navigator.clipboard.writeText(@js($trackingLink)); $flux.toast('Link de acompanhamento copiado.')"
+                    aria-label="Copiar link de acompanhamento"
+                />
                 @can('changeStatus', $order)
                     <flux:button variant="primary" icon="arrow-path" wire:click="openStatusModal">Mudar status</flux:button>
                 @endcan

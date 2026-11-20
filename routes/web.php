@@ -1,11 +1,21 @@
 <?php
 
+use App\Http\Controllers\PublicTrackingController;
 use App\Http\Controllers\ServiceOrderPhotoController;
 use App\Livewire\Customers;
 use App\Livewire\ServiceOrders;
 use Illuminate\Support\Facades\Route;
 
 Route::redirect('/', '/dashboard')->name('home');
+
+// Acompanhamento público da OS (sem login). O token tem 64 caracteres alfanuméricos.
+Route::prefix('acompanhar/{token}')
+    ->where(['token' => '[A-Za-z0-9]{64}'])
+    ->controller(PublicTrackingController::class)
+    ->group(function () {
+        Route::get('/', 'show')->middleware('throttle:public-tracking')->name('tracking.show');
+        Route::post('decisao', 'decide')->middleware('throttle:public-decision')->name('tracking.decide');
+    });
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::view('dashboard', 'dashboard')->name('dashboard');
