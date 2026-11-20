@@ -2,7 +2,10 @@
 
 <x-layouts::public :title="'OS '.$order['number']">
     <header class="flex flex-col gap-1">
-        <flux:text>{{ $order['shop']['name'] }}</flux:text>
+        <div class="mb-2 flex items-center gap-2">
+            <x-brand-mark size="size-8" />
+            <span class="font-semibold text-zinc-800 dark:text-ivory">{{ $order['shop']['name'] }}</span>
+        </div>
         <flux:heading size="xl" level="1">Olá, {{ $order['customer_first_name'] }}!</flux:heading>
         <flux:text>Acompanhe aqui a sua ordem de serviço.</flux:text>
     </header>

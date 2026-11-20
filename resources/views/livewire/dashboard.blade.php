@@ -77,7 +77,7 @@
                                 <span class="h-2.5 w-full">
                                     @if ($row['count'] > 0)
                                         <span
-                                            class="block h-full rounded-e bg-sky-600 transition-opacity group-hover:opacity-80 dark:bg-sky-400"
+                                            class="block h-full rounded-e bg-brand-800 transition-opacity group-hover:opacity-80 dark:bg-brand-400"
                                             style="width: {{ max(2, round($row['count'] / $maxCount * 100)) }}%"
                                         ></span>
                                     @endif
