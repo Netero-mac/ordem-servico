@@ -258,4 +258,4 @@ tests/                # Pest: Unit e Feature
 
 ## Licença
 
-MIT.
+Distribuído sob a licença MIT. Veja [LICENSE](LICENSE).
